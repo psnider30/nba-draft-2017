@@ -1,0 +1,2 @@
+class NbaDraft::SchoolOrClub
+end

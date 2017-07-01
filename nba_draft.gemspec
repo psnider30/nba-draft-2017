@@ -1,16 +1,15 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "nba_draft_2017/version"
+require "nba_draft/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "nba_draft_2017"
-  spec.version       = NbaDraft2017::VERSION
+  spec.name          = "nba_draft"
+  spec.version       = NbaDraft::VERSION
   spec.authors       = ["psnider30"]
   spec.email         = ["pbsnider@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = "Specify dependencies and test for version"
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
@@ -33,4 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "pry"
+
+  spec.add_dependency "nokogiri"
 end

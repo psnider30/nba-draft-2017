@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe NbaDraft2017 do
+RSpec.describe NbaDraft do
   it "has a version number" do
-    expect(NbaDraft2017::VERSION).not_to be nil
+    expect(NbaDraft::VERSION).not_to be nil
   end
 
   it "does something useful" do
