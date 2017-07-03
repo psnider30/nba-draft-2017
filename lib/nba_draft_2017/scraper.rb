@@ -9,6 +9,7 @@ class NbaDraft2017::Scraper
 
     while i < 60
       player_info = draft.css('li p')[i]
+
       player = {}
       player[:pick] = pick.to_s
       player[:nba_team] = player_info.css('strong').text.gsub("\u00A0", "").gsub(':', '').strip
@@ -37,12 +38,8 @@ class NbaDraft2017::Scraper
       players << player
       pick = pick.to_i + 1
       i += 1
-
-      players << player
     end
-
     players
-
   end
 
   def self.scrape_player(player_url)
@@ -64,7 +61,7 @@ class NbaDraft2017::Scraper
     b_year= dob.split(' ')[2].strip.to_i
     b_month = Date::MONTHNAMES.index(dob.split(' ')[0].strip)
     b_day = dob.split(' ')[1].chop.strip.to_i
-    age = Date.today.year - b_year - ((Date.today.month > b_month || (Date.today.month == b_month && date.today.day >= b_day)) ? 0 : 1)
+    age = Date.today.year - b_year - ((Date.today.month > b_month || (Date.today.month == b_month && Date.today.day >= b_day)) ? 0 : 1)
   end
 
   def self.get_key_stats(player_page, player)

@@ -7,9 +7,13 @@ class NbaDraft2017::Cli
     puts 'Welcome to the 2017 NBA Draft'
     make_players
     add_attributes_to_players
+    list_players
   end
 
   def list_players
+    NbaDraft2017::Player.all.each.with_index(1) do |player, i|
+      puts "#{i}. #{player.name} #{player.position} from #{player.former_team} drafted by #{player.nba_team}"
+    end
 
   end
 
@@ -21,9 +25,11 @@ class NbaDraft2017::Cli
   def add_attributes_to_players
     base_path = "http://www.nba.com/draft/2017/prospects/"
     NbaDraft2017::Player.all.each do |player|
-      attributes = NbaDraft2017::Scraper.scrape_player(base_path + "#{player.first_name}_#{player.last_name}")
-      NbaDraft2017::Player.add_player_attributes(attributes)
+      player_url = player.first_name.downcase + '_' + player.last_name.downcase
+      attributes = NbaDraft2017::Scraper.scrape_player(base_path + player_url)
+      player.add_player_attributes(attributes)
   end
+end
 
   def menu
 
