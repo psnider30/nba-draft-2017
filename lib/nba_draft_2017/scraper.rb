@@ -58,31 +58,8 @@ class NbaDraft2017::Scraper
     player[:former_status] = player_page.css('.status').text.split(':')[1].strip
     dob = player_page.css('.birthday').text.split(':')[1].strip
     player[:age] = get_age(dob)
-    player[:key_stats] = get_key_stats(player_page)
-    player[:key_stats].split(','). each do |stat|
-      if stat.include?('ppg')
-        player[:ppg] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('rpg')
-        player[:rpg] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('apg')
-        player[:apg] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('tpg')
-        player[:tpg] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('spg')
-        player[:spg] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('bpg')
-        player[:bpg] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('mpg')
-        player[:mpg] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('FG')
-        player[:FG] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('3PT')
-        player[:_3PT] = stat.split(' ')[0].strip.to_f
-      elsif stat.include?('FT')
-        player[:FT] = stat.split(' ')[0].strip.to_f
-      end
-    end
-    binding.pry
+    player[:key_stats] = []
+    get_key_stats(player_page, player)
     player
   end
 
@@ -93,14 +70,46 @@ class NbaDraft2017::Scraper
     age = Date.today.year - b_year - ((Date.today.month > b_month || (Date.today.month == b_month && date.today.day >= b_day)) ? 0 : 1)
   end
 
-  def self.get_key_stats(player_page)
+  def self.get_key_stats(player_page, player)
     idx = 0
-    while idx < 15
-      if player_page.css(".field-items p[#{idx}] strong").text.downcase.strip == "key statistics:"
-        return key_stats = player_page.css(".field-items p[#{idx}]").text.split(':')[1].strip
-      end
+    until player_page.css(".field-items p[#{idx}] strong").text.downcase.strip == "key statistics:"
       idx += 1
     end
-  end
+    stats = player_page.css(".field-items p[#{idx}]").text.split(':')[1].strip
 
+    stats.split(','). each do |stat|
+      if stat.include?('ppg')
+        player[:ppg] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:ppg].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('rpg')
+        player[:rpg] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:rpg].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('apg')
+        player[:apg] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:apg].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('tpg')
+        player[:tpg] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:tpg].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('spg')
+        player[:spg] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:spg].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('bpg')
+        player[:bpg] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:bpg].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('mpg')
+        player[:mpg] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:mpg].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('FG')
+        player[:FG] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:FG].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('3PT')
+        player[:_3PT] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:_3PT].to_s + ' ' + stat.split(' ')[1].strip
+      elsif stat.include?('FT')
+        player[:FT] = stat.split(' ')[0].strip.to_f
+        player[:key_stats] << player[:FT].to_s + ' ' + stat.split(' ')[1].strip
+      end
+    end
+  end
+  
 end
