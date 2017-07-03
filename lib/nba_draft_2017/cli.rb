@@ -1,22 +1,28 @@
 # Our CLI controller
 class NbaDraft2017::Cli
 
-  BASE_PATH = "http://www.nba.com/draft/2017/prospects/"
+  base_path = "http://www.nba.com/draft/2017/prospects/"
 
   def call
-    puts '2017 NBA Draft Picks'
-    list_players
+    puts 'Welcome to the 2017 NBA Draft'
+    make_players
+    add_attributes_to_players
   end
 
   def list_players
-    puts "2017 NBA draft results"
-    #NbaDraft2017::Scraper.scrape_draft
-    NbaDraft2017::Scraper.scrape_player(BASE_PATH + 'markelle_fultz')
-  	# Here Doc http://blog.jayfields.com/2006/12/ruby-multiline-strings-here-doc-or.html
-  	#puts <<-DOC.gsub(/^\s+/, '')
-	  	#1. Markelle Fultz
-	  	#2. Lonzo Ball
-  	#DOC
+
+  end
+
+  def make_players
+    players_array = NbaDraft2017::Scraper.scrape_draft
+    NbaDraft2017::Player.create_from_collection(players_array)
+  end
+
+  def add_attributes_to_players
+    base_path = "http://www.nba.com/draft/2017/prospects/"
+    NbaDraft2017::Player.all.each do |player|
+      attributes = NbaDraft2017::Scraper.scrape_player(base_path + "#{player.first_name}_#{player.last_name}")
+      NbaDraft2017::Player.add_player_attributes(attributes)
   end
 
   def menu

@@ -1,8 +1,5 @@
 class NbaDraft2017::Scraper
 
-  attr_accessor :name, :last_name, :first_name, :pick, :round, :nba_team, :position, :former_team, :height, :weight, :former_status, :age,
-    :key_stats, :ppg, :rpg, :apg, :tpg, :spg, :bpg, :mpg, :FG, :_3PT, :FT
-
   def self.scrape_draft
     doc = Nokogiri::HTML(open('http://www.cbssports.com/nba/news/2017-nba-draft-picks-complete-results-full-list-of-players-selected-highlights-grades/'))
     draft = doc.xpath('//*[@id="article-main-body"]/div/ol')
@@ -111,5 +108,5 @@ class NbaDraft2017::Scraper
       end
     end
   end
-  
+
 end
