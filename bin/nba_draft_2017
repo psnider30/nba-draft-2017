@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'nba_draft_2017.rb'
+
+NbaDraft2017::Cli.new.call
