@@ -1,7 +1,7 @@
 class NbaDraft2017::Scraper
 
   attr_accessor :name, :last_name, :first_name, :pick, :round, :nba_team, :position, :former_team, :height, :weight, :former_status, :age,
-    :key_stats
+    :key_stats, :ppg, :rpg, :apg, :tpg, :spg, :bpg, :mpg, :FG, :_3PT, :FT
 
   def self.scrape_draft
     doc = Nokogiri::HTML(open('http://www.cbssports.com/nba/news/2017-nba-draft-picks-complete-results-full-list-of-players-selected-highlights-grades/'))
@@ -59,6 +59,30 @@ class NbaDraft2017::Scraper
     dob = player_page.css('.birthday').text.split(':')[1].strip
     player[:age] = get_age(dob)
     player[:key_stats] = get_key_stats(player_page)
+    player[:key_stats].split(','). each do |stat|
+      if stat.include?('ppg')
+        player[:ppg] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('rpg')
+        player[:rpg] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('apg')
+        player[:apg] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('tpg')
+        player[:tpg] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('spg')
+        player[:spg] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('bpg')
+        player[:bpg] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('mpg')
+        player[:mpg] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('FG')
+        player[:FG] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('3PT')
+        player[:_3PT] = stat.split(' ')[0].strip.to_f
+      elsif stat.include?('FT')
+        player[:FT] = stat.split(' ')[0].strip.to_f
+      end
+    end
+    binding.pry
     player
   end
 

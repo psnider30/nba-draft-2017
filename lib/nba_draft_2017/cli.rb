@@ -10,9 +10,8 @@ class NbaDraft2017::Cli
 
   def list_players
     puts "2017 NBA draft results"
-    NbaDraft2017::Scraper.scrape_nba
     #NbaDraft2017::Scraper.scrape_draft
-    #NbaDraft2017::Scraper.scrape_player(BASE_PATH + 'alpha_kaba')
+    NbaDraft2017::Scraper.scrape_player(BASE_PATH + 'markelle_fultz')
   	# Here Doc http://blog.jayfields.com/2006/12/ruby-multiline-strings-here-doc-or.html
   	#puts <<-DOC.gsub(/^\s+/, '')
 	  	#1. Markelle Fultz
