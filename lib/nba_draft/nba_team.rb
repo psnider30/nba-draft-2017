@@ -1,2 +1,0 @@
-class NbaDraft::NbaTeam
-end
