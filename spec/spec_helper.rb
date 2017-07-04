@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "nba_draft"
+require "nba_draft_2017"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

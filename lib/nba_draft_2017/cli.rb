@@ -1,10 +1,9 @@
 # Our CLI controller
 class NbaDraft2017::Cli
 
-  base_path = "http://www.nba.com/draft/2017/prospects/"
-
   def call
     puts 'Welcome to the 2017 NBA Draft'
+    NbaDraft2017::Scraper.scrape_player("http://www.nba.com/draft/2017/prospects/davon_reed")
     make_players
     add_attributes_to_players
     list_players
@@ -23,13 +22,18 @@ class NbaDraft2017::Cli
   end
 
   def add_attributes_to_players
-    base_path = "http://www.nba.com/draft/2017/prospects/"
-    NbaDraft2017::Player.all.each do |player|
-      player_url = player.first_name.downcase + '_' + player.last_name.downcase
-      attributes = NbaDraft2017::Scraper.scrape_player(base_path + player_url)
+      NbaDraft2017::Player.all.each do |player|
+      attributes = NbaDraft2017::Scraper.scrape_player("http://www.nba.com/draft/2017/prospects/" + player.profile_url)
       player.add_player_attributes(attributes)
+    end
   end
-end
+
+#def player_url
+#  NbaDraft2017::Player.all.each do |player|
+#    player_url = "http://www.nba.com/draft/2017/prospects/" + player.first_name.gsub(/\W/, '').downcase.strip + '_' + player.last_name.gsub(/\W/, '').downcase.strip
+#    puts player_url
+#  end
+#end
 
   def menu
 
