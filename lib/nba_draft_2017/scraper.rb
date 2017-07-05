@@ -35,7 +35,11 @@ class NbaDraft2017::Scraper
         player[:last_name] = details[2].gsub("\u00A0", "").strip
       end
       player[:name] = player[:first_name] + ' ' + player[:last_name]
-      player[:profile_url] = player[:first_name].gsub(/\W/, '').downcase + '_' + player[:last_name].gsub(/\W/, '').downcase
+      if player[:first_name] == 'Andzejs'
+        player[:profile_url] = 'anzejs_pasecniks'
+      else
+        player[:profile_url] = player[:first_name].gsub(/\W/, '').downcase + '_' + player[:last_name].gsub(/\W/, '').downcase
+      end
       players << player
       pick = pick.to_i + 1
       i += 1

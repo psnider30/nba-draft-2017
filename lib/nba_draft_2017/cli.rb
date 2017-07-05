@@ -3,10 +3,10 @@ class NbaDraft2017::Cli
 
   def call
     puts 'Welcome to the 2017 NBA Draft'
-    NbaDraft2017::Scraper.scrape_player("http://www.nba.com/draft/2017/prospects/davon_reed")
     make_players
-    add_attributes_to_players
     list_players
+    add_attributes_to_players
+
   end
 
   def list_players
@@ -26,6 +26,7 @@ class NbaDraft2017::Cli
       attributes = NbaDraft2017::Scraper.scrape_player("http://www.nba.com/draft/2017/prospects/" + player.profile_url)
       player.add_player_attributes(attributes)
     end
+    puts 'done'
   end
 
 #def player_url
