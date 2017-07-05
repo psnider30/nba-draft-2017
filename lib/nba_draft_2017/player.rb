@@ -18,6 +18,14 @@ class NbaDraft2017::Player
     attributes_hash.each { |attribute, value| self.send("#{attribute}=", value) }
   end
 
+  def self.find_player_by_name(player_name)
+    NbaDraft2017::Player.all.detect { |player| player.name == player_name }
+  end
+
+  def self.find_player_by_pick(pick)
+    NbaDraft2017::Player.all.detect { |player| player.pick == pick }
+  end
+
   def self.all
     @@all
   end

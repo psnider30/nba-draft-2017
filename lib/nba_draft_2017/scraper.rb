@@ -53,12 +53,12 @@ class NbaDraft2017::Scraper
     #profile = player_page.css('#draft-prospect-profile')
     ht_weight = player_page.css('.stats').text.split(':')[1]
     player[:height] = ht_weight.split('/')[0].gsub("\"", "").strip if ht_weight
-    player[:weight] = ht_weight.split('/')[1].strip
+    player[:weight] = ht_weight.split('/')[1].strip if ht_weight
     player[:former_status] = player_page.css('.status').text.split(':')[1].strip
     dob = player_page.css('.birthday').text.split(':')[1].strip
     player[:age] = get_age(dob) if dob
     stats = get_key_stats(player_page)
-    split_key_stats(stats, player) if player
+    split_key_stats(stats, player)
     player
   end
 
