@@ -94,9 +94,7 @@ class NbaDraft2017::Cli
       elsif input == 'list player'
         puts "Please enter player name or draft pick number."
         lookup = gets.strip
-        if lookup.to_i > 60
-          error
-        elsif lookup.to_i > 0 && input.to_i <= 60
+        if lookup.to_i > 0 && lookup.to_i <= 60
           player = NbaDraft2017::Player.find_player_by_pick(lookup)
           list_player(player.name)
         elsif NbaDraft2017::Player.find_player_by_name(lookup)
