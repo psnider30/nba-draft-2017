@@ -19,11 +19,11 @@ class NbaDraft2017::Player
   end
 
   def self.find_player_by_name(player_name)
-    NbaDraft2017::Player.all.detect { |player| player.name == player_name }
+    NbaDraft2017::Player.all.detect { |player| player.name.downcase == player_name.downcase }
   end
 
   def self.find_player_by_pick(pick)
-    NbaDraft2017::Player.all.detect { |player| player.pick == pick }
+    NbaDraft2017::Player.all.detect { |player| player.pick == pick.to_s }
   end
 
   def self.all

@@ -4,33 +4,48 @@ class NbaDraft2017::Cli
   def call
     puts 'Welcome to the 2017 NBA Draft'
     make_players
-    #list_players
-    #add_attributes_to_player('Markelle Fultz')
-    list_player('Markelle Fultz')
+    menu
   end
 
   def list_players
+    list_round_1
+    list_round_2
+  end
+
+  def list_round_1
     puts "Round 1".colorize(:blue).bold
-      puts "------------------------------------------------------------".colorize(:red)
-    NbaDraft2017::Player.all.each.with_index(1) do |player, i|
-      if i == 31
-        puts puts "Round 2".colorize(:blue).bold
-        puts "------------------------------------------------------------".colorize(:red)
-      end
-      puts "#{i}. #{player.name.colorize(:green).bold} #{player.position.colorize(:red)} from #{player.former_team.colorize(:blue).bold} drafted by #{player.nba_team.colorize(:green).bold}"
+    puts "------------------------------------------------------------".colorize(:red)
+    i = 0
+    while i < 30
+      player = NbaDraft2017::Player.all[i]
+      puts "#{i + 1}. #{player.name.colorize(:green).bold} #{player.position.colorize(:red)} from #{player.former_team.colorize(:blue).bold} drafted by #{player.nba_team.colorize(:green).bold}"
+      i += 1
     end
+    puts "------------------------------------------------------------".colorize(:red)
+  end
+
+  def list_round_2
+    puts "Round 2".colorize(:blue).bold
+    puts "------------------------------------------------------------".colorize(:red)
+    i = 30
+    while i < 60
+      player = NbaDraft2017::Player.all[i]
+      puts "#{i + 1}. #{player.name.colorize(:green).bold} #{player.position.colorize(:red)} from #{player.former_team.colorize(:blue).bold} drafted by #{player.nba_team.colorize(:green).bold}"
+      i += 1
+    end
+    puts "------------------------------------------------------------".colorize(:red)
   end
 
   def list_player(player_name)
     player = add_attributes_to_player(player_name)
-    puts "#{player.name.upcase.bold}".colorize(:green)
+    puts "#{player.name.upcase.bold}".colorize(:green).bold
     puts "  Round:".colorize(:red) +" #{player.round}" + "  Pick:".colorize(:red) +" #{player.pick}"
     puts "  Drafted By:".colorize(:red) +" #{player.nba_team}"
     puts "  From:".colorize(:red) +" #{player.former_team}"
     puts "  Drafted As:".colorize(:red) +" #{player.former_status}"
     puts "  Height:".colorize(:red) +" #{player.height}"
     puts "  Weight:".colorize(:red) +" #{player.weight}"
-    puts "  STATS".colorize(:green)
+    puts "  STATS".colorize(:green).bold if player.key_stats
     if player.key_stats
       puts "    PPG:".colorize(:red) + " #{player.ppg}"
       puts "    RPG:".colorize(:red) + " #{player.rpg}"
@@ -40,7 +55,6 @@ class NbaDraft2017::Cli
       puts "    BPG:".colorize(:red) + " #{player.bpg}"
       puts "    MPG:".colorize(:red) + " #{player.mpg}"
     end
-    binding.pry
   end
 
 
@@ -65,20 +79,47 @@ class NbaDraft2017::Cli
       player
   end
 
-#def player_url
-#  NbaDraft2017::Player.all.each do |player|
-#    player_url = "http://www.nba.com/draft/2017/prospects/" + player.first_name.gsub(/\W/, '').downcase.strip + '_' + player.last_name.gsub(/\W/, '').downcase.strip
-#    puts player_url
-#  end
-#end
-
   def menu
+    input = nil
+    while input != 'exit'
+      puts "Enter 'list draft', 'round 1' or 'round 2' to see list of draft picks."
+      puts "Enter 'list player' to see player details and stats or type 'exit'."
+      input = gets.strip.downcase
+      if input == 'list draft'
+        list_players
+      elsif input == 'round 1'
+        list_round_1
+      elsif input == 'round 2'
+        list_round_2
+      elsif input == 'list player'
+        puts "Please enter player name or draft pick number."
+        lookup = gets.strip
+        if lookup.to_i > 60
+          error
+        elsif lookup.to_i > 0 && input.to_i <= 60
+          player = NbaDraft2017::Player.find_player_by_pick(lookup)
+          list_player(player.name)
+        elsif NbaDraft2017::Player.find_player_by_name(lookup)
+          list_player(lookup)
+        else
+          error
+        end
+      elsif input == 'exit'
+        good_bye
+      else
+        error
+      end
+    end
+  end
 
+  def error
+    puts "I didn't understand that! Please try agian or type 'exit'.".colorize(:red).bold
+    puts "------------------------------------------------------------".colorize(:green)
   end
 
 
 
   def good_bye
-    puts "Thanks for checking out the 2017 NBA Draft! Prognosis: Sorry, you're teams probably still going to lose to the Warriors!"
+    puts "Thanks for checking out the 2017 NBA Draft! Prognosis: Sorry, your teams probably still going to lose to the Warriors!"
   end
 end
