@@ -13,12 +13,12 @@ class NbaDraft2017::Scraper
       player = {}
       player[:pick] = pick.to_s
       player[:nba_team] = player_info.css('strong').text.gsub("\u00A0", "").gsub(':', '').strip
+      player[:former_team] = player_info.text.split('-')[-1].gsub("\u00A0", "").strip
       details = player_info.text.split(' ')
       player[:position] = details. detect { |d| d.include?('(') }.strip
 
       if i < 30
         player[:round] = '1'
-        player[:former_team] = player_info.text.split('-')[-1].chop.strip
 
         if details[0].include?(':')
           player[:first_name] = details[0].split(':')[1].gsub("\u00A0", "").strip
@@ -29,7 +29,6 @@ class NbaDraft2017::Scraper
         end
       elsif i >= 30
         player[:round] = '2'
-        player[:former_team] = details[-1].gsub("\u00A0", "").strip
 
         player[:first_name] = details[1].gsub("\u00A0", "").strip
         player[:last_name] = details[2].gsub("\u00A0", "").strip

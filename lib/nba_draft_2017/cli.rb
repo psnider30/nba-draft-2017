@@ -82,8 +82,7 @@ class NbaDraft2017::Cli
   def menu
     input = nil
     while input != 'exit'
-      puts "Enter 'list draft', 'round 1' or 'round 2' to see list of draft picks."
-      puts "Enter 'list player' to see player details and stats or type 'exit'."
+      list_controls
       input = gets.strip.downcase
       if input == 'list draft'
         list_players
@@ -102,11 +101,44 @@ class NbaDraft2017::Cli
         else
           error
         end
+      elsif input == 'nba team'
+        puts 'Enter am NBA team (name only) as in list below:'.colorize(:green)
+        puts NbaDraft2017::Player.nba_teams
+        nba_team = gets.strip.downcase
+        if NbaDraft2017::Player.nba_teams.include?(nba_team)
+          NbaDraft2017::Player.players_by_nba_team(nba_team)
+        else
+          error
+        end
+      elsif input == 'school/country'
+        puts 'Enter a school or country by School name or abbreviation or by the Country name as in list below:'.colorize(:green)
+        puts NbaDraft2017::Player.former_teams
+        former_team = gets.strip.downcase
+        if NbaDraft2017::Player.former_teams.include?(former_team)
+          NbaDraft2017::Player.players_by_former_team(former_team)
+        else
+          error
+        end
       elsif input == 'exit'
         good_bye
       else
         error
       end
+    end
+  end
+
+  def list_controls
+    puts "Enter 'list draft', 'round 1' or 'round 2' to see list of draft picks."
+    puts "Enter 'list player' to see player details and stats"
+    puts "Enter 'nba team' to show players drafted by a NBA team"
+    #puts "Enter 'list nba teams' to see all NBA teams who drafted player(s)"
+    puts "Enter 'school/country' to show players drated out of colleges or clubs"
+    #puts "Enter 'list draft sources' to see all College teams or Countries in the draft"
+    puts "To quit, type 'enter'"
+  end
+
+  def list draft_picks_by_team
+    NbaDraft2017::Player.all.each do |player|
     end
   end
 
