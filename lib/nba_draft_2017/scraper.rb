@@ -49,7 +49,6 @@ class NbaDraft2017::Scraper
   def self.scrape_player(profile_url)
     player_page = Nokogiri::HTML(open(profile_url))
     player = {}
-    #profile = player_page.css('#draft-prospect-profile')
     ht_weight = player_page.css('.stats').text.split(':')[1]
     player[:height] = ht_weight.split('/')[0].gsub("\"", "").strip if ht_weight
     player[:weight] = ht_weight.split('/')[1].strip if ht_weight

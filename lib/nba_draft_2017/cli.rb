@@ -13,6 +13,7 @@ class NbaDraft2017::Cli
   end
 
   def list_round_1
+    puts "------------------------------------------------------------".bold.colorize(:red)
     puts "Round 1".colorize(:blue).bold
     puts "------------------------------------------------------------".bold.colorize(:red)
     i = 0
@@ -40,33 +41,7 @@ class NbaDraft2017::Cli
     puts "------------------------------------------------------------".bold.colorize(:red)
   end
 
-  def list_player_details(player_name)
-    player = add_attributes_to_player(player_name)
-    puts "#{player.name.upcase.bold}".colorize(:green).bold
-    puts "  Round:".bold.colorize(:red) +" #{player.round}" + "  Pick:".bold.colorize(:red) +" #{player.pick}"
-    puts "  Drafted By:".bold.colorize(:red) +" #{player.nba_team}"
-    puts "  From:".bold.colorize(:red) +" #{player.former_team}"
-    puts "  Drafted As:".bold.colorize(:red) +" #{player.former_status}"
-    puts "  Height:".bold.colorize(:red) +" #{player.height}"
-    puts "  Weight:".bold.colorize(:red) +" #{player.weight}"
-    puts "  STATS".colorize(:green).bold if player.key_stats
-    if player.key_stats
-      puts "    PPG:".bold.colorize(:red) + " #{player.ppg}" if player.ppg
-      puts "    RPG:".bold.colorize(:red) + " #{player.rpg}" if player.rpg
-      puts "    APG:".bold.colorize(:red) + " #{player.apg}" if player.apg
-      puts "    FG%:".bold.colorize(:red) + " #{player.fg.round(2) * 100}%" if player.fg
-      puts "    3PT%:".bold.colorize(:red) + " #{player.three.round(2) * 100}%" if player.three
-      puts "    FT%:".bold.colorize(:red) + " #{player.ft.round(2) * 100}%" if player.ft
-      puts "    TPG:".bold.colorize(:red) + " #{player.tpg}" if player.tpg
-      puts "    SPG:".bold.colorize(:red) + " #{player.spg}" if player.spg
-      puts "    BPG:".bold.colorize(:red) + " #{player.bpg}" if player.bpg
-      puts "    MPG:".bold.colorize(:red) + " #{player.mpg}" if player.mpg
-    end
-  end
-
-
-
-  def make_players
+    def make_players
     players_array = NbaDraft2017::Scraper.scrape_draft
     NbaDraft2017::Player.create_from_collection(players_array)
   end
@@ -90,13 +65,11 @@ class NbaDraft2017::Cli
       elsif input == 'round 2' || input == 'round2'
         list_round_2
       elsif input == 'list player'
-        list_player
+        player_name = find_and_list_player
       elsif input == 'nba team'
         list_draft_picks_by_nba_team
       elsif input == 'former team'
         list_draft_picks_by_former_team
-      elsif input == 'all'
-        add_attributes_to_players
       elsif input == 'exit'
         good_bye
       else
@@ -124,6 +97,31 @@ class NbaDraft2017::Cli
     else
       error
     end
+  end
+
+  def list_player_details(player_name)
+    player = add_attributes_to_player(player_name)
+    puts "#{player.name.upcase.bold.underline}".colorize(:green).bold
+    puts "  Round:".bold.colorize(:red) +" #{player.round}" + "  Pick:".bold.colorize(:red) +" #{player.pick}"
+    puts "  Drafted By:".bold.colorize(:red) +" #{player.nba_team}"
+    puts "  From:".bold.colorize(:red) +" #{player.former_team}"
+    puts "  Drafted As:".bold.colorize(:red) +" #{player.former_status}"
+    puts "  Height:".bold.colorize(:red) +" #{player.height}"
+    puts "  Weight:".bold.colorize(:red) +" #{player.weight}"
+    puts "  STATS".colorize(:green).bold if player.key_stats
+    if player.key_stats
+      puts "    PPG:".bold.colorize(:red) + " #{player.ppg}" if player.ppg
+      puts "    RPG:".bold.colorize(:red) + " #{player.rpg}" if player.rpg
+      puts "    APG:".bold.colorize(:red) + " #{player.apg}" if player.apg
+      puts "    FG%:".bold.colorize(:red) + " #{(player.fg* 100).round(2)}%" if player.fg
+      puts "    3PT%:".bold.colorize(:red) + " #{(player.three * 100).round(2)}%" if player.three
+      puts "    FT%:".bold.colorize(:red) + " #{(player.ft * 100).round(2)}%" if player.ft
+      puts "    TPG:".bold.colorize(:red) + " #{player.tpg}" if player.tpg
+      puts "    SPG:".bold.colorize(:red) + " #{player.spg}" if player.spg
+      puts "    BPG:".bold.colorize(:red) + " #{player.bpg}" if player.bpg
+      puts "    MPG:".bold.colorize(:red) + " #{player.mpg}" if player.mpg
+    end
+    player_name
   end
 
   def list_draft_picks_by_nba_team
