@@ -113,20 +113,19 @@ class NbaDraft2017::Cli
       puts "    PPG:".bold.colorize(:red) + " #{player.ppg}" if player.ppg
       puts "    RPG:".bold.colorize(:red) + " #{player.rpg}" if player.rpg
       puts "    APG:".bold.colorize(:red) + " #{player.apg}" if player.apg
-      puts "    FG%:".bold.colorize(:red) + " #{(player.fg* 100).round(2)}%" if player.fg
-      puts "    3PT%:".bold.colorize(:red) + " #{(player.three * 100).round(2)}%" if player.three
-      puts "    FT%:".bold.colorize(:red) + " #{(player.ft * 100).round(2)}%" if player.ft
+      puts "    FG:".bold.colorize(:red) + " #{(player.fg* 100).round(2)}%" if player.fg
+      puts "    3PT:".bold.colorize(:red) + " #{(player.three * 100).round(2)}%" if player.three
+      puts "    FT:".bold.colorize(:red) + " #{(player.ft * 100).round(2)}%" if player.ft
       puts "    TPG:".bold.colorize(:red) + " #{player.tpg}" if player.tpg
       puts "    SPG:".bold.colorize(:red) + " #{player.spg}" if player.spg
       puts "    BPG:".bold.colorize(:red) + " #{player.bpg}" if player.bpg
       puts "    MPG:".bold.colorize(:red) + " #{player.mpg}" if player.mpg
     end
-    player_name
   end
 
   def list_draft_picks_by_nba_team
-    puts 'Enter am NBA team (name only) as in list below:'.colorize(:green)
     puts NbaDraft2017::Player.nba_teams.sort
+    puts 'Enter am NBA team (name only) as in list above:'.colorize(:green)
     nba_team = gets.strip.downcase
     if NbaDraft2017::Player.nba_teams.include?(nba_team)
       NbaDraft2017::Player.players_by_nba_team(nba_team)
@@ -136,8 +135,8 @@ class NbaDraft2017::Cli
   end
 
   def list_draft_picks_by_former_team
-    puts 'Enter a School or Country name exactly as shown in list below:'.colorize(:green)
     puts NbaDraft2017::Player.former_teams.sort
+    puts 'Enter a School or Country name exactly as shown in list above:'.colorize(:green)
     former_team = gets.strip.downcase
     if NbaDraft2017::Player.former_teams.include?(former_team)
       NbaDraft2017::Player.players_by_former_team(former_team)

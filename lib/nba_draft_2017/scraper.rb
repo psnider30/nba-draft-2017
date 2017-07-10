@@ -81,39 +81,37 @@ class NbaDraft2017::Scraper
 
   def self.split_key_stats(stats, player)
     if stats
-      player[:key_stats] = []
-      stats.strip.split(','). each do |stat|
-
+      player[:key_stats] = stats.strip.split(',').collect do |stat|
         if stat.downcase.include?('ppg')
           player[:ppg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:ppg].to_s + ' ' + stat.split(' ')[1].strip
+          player[:ppg].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('rpg')
           player[:rpg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:rpg].to_s + ' ' + stat.split(' ')[1].strip
+          player[:rpg].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('apg')
           player[:apg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:apg].to_s + ' ' + stat.split(' ')[1].strip
+          player[:apg].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('tpg')
           player[:tpg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:tpg].to_s + ' ' + stat.split(' ')[1].strip
+          player[:tpg].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('spg')
           player[:spg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:spg].to_s + ' ' + stat.split(' ')[1].strip
+          player[:spg].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('bpg')
           player[:bpg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:bpg].to_s + ' ' + stat.split(' ')[1].strip
+          player[:bpg].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('mpg')
           player[:mpg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:mpg].to_s + ' ' + stat.split(' ')[1].strip
+          player[:mpg].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('fg')
           player[:fg] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:FG].to_s + ' ' + stat.split(' ')[1].strip
+          player[:FG].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('3pt')
           player[:three] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:_3PT].to_s + ' ' + stat.split(' ')[1].strip
+          player[:_3PT].to_s + ' ' + stat.split(' ')[1].strip
         elsif stat.downcase.include?('ft')
           player[:ft] = stat.split(' ')[0].strip.to_f
-          player[:key_stats] << player[:FT].to_s + ' ' + stat.split(' ')[1].strip
+          player[:FT].to_s + ' ' + stat.split(' ')[1].strip
         end
       end
     end
