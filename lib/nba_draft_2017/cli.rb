@@ -65,7 +65,7 @@ class NbaDraft2017::Cli
       elsif input == 'round 2' || input == 'round2'
         list_round_2
       elsif input == 'list player'
-        player_name = find_and_list_player
+        find_and_list_player
       elsif input == 'nba team'
         list_draft_picks_by_nba_team
       elsif input == 'former team'
