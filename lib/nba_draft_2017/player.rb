@@ -1,7 +1,7 @@
 class NbaDraft2017::Player
 
   attr_accessor :name, :last_name, :first_name, :profile_url, :pick, :round, :nba_team, :position, :former_team, :height, :weight, :former_status, :age,
-    :key_stats, :ppg, :rpg, :apg, :tpg, :spg, :bpg, :mpg, :FG, :_3PT, :FT
+    :key_stats, :ppg, :rpg, :apg, :tpg, :spg, :bpg, :mpg, :fg, :three, :ft
 
   @@all = []
   @@nba_teams = []
@@ -30,7 +30,7 @@ class NbaDraft2017::Player
 
   def self.nba_teams
     self.all.each do |player|
-      @@nba_teams << player.nba_team.downcase
+      @@nba_teams << player.nba_team.downcase.strip
     end
     @@nba_teams.uniq
   end
@@ -39,15 +39,16 @@ class NbaDraft2017::Player
     puts nba_team.upcase.bold.colorize(:green)
     self.all.each do |player|
       if player.nba_team.downcase == nba_team.downcase
-        puts "Rd: ".colorize(:red) +"#{player.round}" + "  Pick: ".colorize(:red) +"#{player.pick} #{player.name.upcase.bold.colorize(:blue)} from #{player.former_team.colorize(:blue)}"
+        puts "Rd: ".colorize(:red) +"#{player.round}" + "  Pick: ".colorize(:red) +"#{player.pick} #{player.name.upcase.bold.colorize(:blue)} from #{player.former_team.bold.colorize(:blue)}"
       end
     end
   end
 
   def self.former_teams
     self.all.each do |player|
-      @@former_teams << player.former_team.downcase
+      @@former_teams << player.former_team.downcase.strip
     end
+
     @@former_teams.uniq
   end
 
@@ -55,7 +56,7 @@ class NbaDraft2017::Player
     puts former_team.upcase.bold.colorize(:green)
     self.all.each do |player|
       if player.former_team.downcase == former_team.downcase
-        puts "Rd: ".colorize(:red) +"#{player.round}" + "  Pick: ".colorize(:red) +"#{player.pick} #{player.name.upcase.bold.colorize(:blue)} to #{player.nba_team.colorize(:blue)}"
+        puts "Rd: ".colorize(:red) +"#{player.round}" + "  Pick: ".colorize(:red) +"#{player.pick} #{player.name.upcase.bold.colorize(:blue)} to #{player.nba_team.bold.colorize(:blue)}"
       end
     end
   end

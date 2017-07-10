@@ -12,8 +12,8 @@ class NbaDraft2017::Scraper
 
       player = {}
       player[:pick] = pick.to_s
-      player[:nba_team] = player_info.css('strong').text.gsub("\u00A0", "").gsub(':', '').strip
-      player[:former_team] = player_info.text.split('-')[-1].gsub("\u00A0", "").strip
+      player[:nba_team] = player_info.css('strong').text.gsub("\u00A0", '').gsub(':', '').strip
+      player[:former_team] = player_info.text.split('-')[-1].gsub("\u00A0", '').gsub(':', '').strip
       details = player_info.text.split(' ')
       player[:position] = details. detect { |d| d.include?('(') }.strip
 
@@ -21,19 +21,19 @@ class NbaDraft2017::Scraper
         player[:round] = '1'
 
         if details[0].include?(':')
-          player[:first_name] = details[0].split(':')[1].gsub("\u00A0", "").strip
-          player[:last_name] = details[1].gsub("\u00A0", "").strip
+          player[:first_name] = details[0].split(':')[1].gsub(/\W/, "").strip
+          player[:last_name] = details[1].gsub(/\W/, "").strip
         else
-          player[:first_name] = details[1].split(':')[1].gsub("\u00A0", "").strip
-          player[:last_name] = details[2].gsub("\u00A0", "").strip
+          player[:first_name] = details[1].split(':')[1].gsub(/\W/, "").strip
+          player[:last_name] = details[2].gsub(/\W/, "").strip
         end
       elsif i >= 30
         player[:round] = '2'
 
-        player[:first_name] = details[1].gsub("\u00A0", "").strip
-        player[:last_name] = details[2].gsub("\u00A0", "").strip
+        player[:first_name] = details[1].gsub(/\W/, "").strip
+        player[:last_name] = details[2].gsub(/\W/, "").strip
       end
-      player[:name] = player[:first_name] + ' ' + player[:last_name]
+      player[:name] = player[:first_name].strip + ' ' + player[:last_name].strip
       if player[:first_name] == 'Andzejs'
         player[:profile_url] = 'anzejs_pasecniks'
       else
@@ -84,6 +84,7 @@ class NbaDraft2017::Scraper
     if stats
       player[:key_stats] = []
       stats.strip.split(','). each do |stat|
+
         if stat.downcase.include?('ppg')
           player[:ppg] = stat.split(' ')[0].strip.to_f
           player[:key_stats] << player[:ppg].to_s + ' ' + stat.split(' ')[1].strip
@@ -105,14 +106,14 @@ class NbaDraft2017::Scraper
         elsif stat.downcase.include?('mpg')
           player[:mpg] = stat.split(' ')[0].strip.to_f
           player[:key_stats] << player[:mpg].to_s + ' ' + stat.split(' ')[1].strip
-        elsif stat.downcase.include?('FG')
-          player[:FG] = stat.split(' ')[0].strip.to_f
+        elsif stat.downcase.include?('fg')
+          player[:fg] = stat.split(' ')[0].strip.to_f
           player[:key_stats] << player[:FG].to_s + ' ' + stat.split(' ')[1].strip
-        elsif stat.downcase.include?('3PT')
-          player[:_3PT] = stat.split(' ')[0].strip.to_f
+        elsif stat.downcase.include?('3pt')
+          player[:three] = stat.split(' ')[0].strip.to_f
           player[:key_stats] << player[:_3PT].to_s + ' ' + stat.split(' ')[1].strip
-        elsif stat.downcase.include?('FT')
-          player[:FT] = stat.split(' ')[0].strip.to_f
+        elsif stat.downcase.include?('ft')
+          player[:ft] = stat.split(' ')[0].strip.to_f
           player[:key_stats] << player[:FT].to_s + ' ' + stat.split(' ')[1].strip
         end
       end
