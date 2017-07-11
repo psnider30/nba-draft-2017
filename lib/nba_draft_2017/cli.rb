@@ -116,6 +116,7 @@ class NbaDraft2017::Cli
     puts "  Round:".bold.colorize(:red) +" #{player.round}" + "  Pick:".bold.colorize(:red) +" #{player.pick}"
     puts "  Drafted By:".bold.colorize(:red) +" #{player.nba_team}"
     puts "  From:".bold.colorize(:red) +" #{player.former_team}"
+    puts "  Position:".bold.colorize(:red) +" #{player.position}"
     puts "  Drafted As:".bold.colorize(:red) +" #{player.former_status}"
     puts "  Height:".bold.colorize(:red) +" #{player.height}"
     puts "  Weight:".bold.colorize(:red) +" #{player.weight}"

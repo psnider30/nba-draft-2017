@@ -7,7 +7,7 @@ This Ruby Gem provides a Command Line Interface to view the 60 picks from the 20
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'nba_draft_2017'
+gem 'nba-draft-2017'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install nba_draft_2017
+    $ gem install nba-draft-2017
 
 ## Usage
 
