@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files`.split($\)
   spec.executables   = ["nba-draft-2017"]
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+  spec.require_paths = ["lib", "lib/nba_draft_2017"]
 
 
   spec.add_development_dependency "bundler", "~> 1.15"

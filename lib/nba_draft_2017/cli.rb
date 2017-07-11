@@ -68,9 +68,9 @@ class NbaDraft2017::Cli
       input = gets.strip.downcase
       if input == 'draft'
         list_draft
-      elsif input == 'round 1' || input == 'round1'
+      elsif input == 'rd1' || input == 'rd 1'
         list_round_1
-      elsif input == 'round 2' || input == 'round2'
+      elsif input == 'rd2' || input == 'rd 2'
         list_round_2
       elsif input == 'player' || input == 'players'
         find_and_list_player
@@ -87,11 +87,17 @@ class NbaDraft2017::Cli
   end
 
   def list_controls
-    puts "Enter 'draft', 'round 1' or 'round 2' to see list of draft picks."
-    puts "Enter 'player' to see player details and stats"
-    puts "Enter 'nba team' to show players drafted by a NBA team"
-    puts "Enter 'former team' to show players drated out of colleges or clubs"
-    puts "To quit, type 'exit'"
+    draft = "'draft'"
+    round_1 = "'rd1'"
+    round_2 = "'rd2'"
+    player = "'player'"
+    nba_team = "'nba'"
+    former_team = "'former'"
+    puts "Enter #{draft.colorize(:green)}, #{round_1.colorize(:green)} or #{round_2.colorize(:green)} to see list of draft picks."
+    puts "Enter #{player.colorize(:green)} to see player details and stats"
+    puts "Enter #{nba_team.colorize(:green)} to show players drafted by a NBA team"
+    puts "Enter #{former_team.colorize(:green)} to show players drated out of colleges or clubs"
+    puts "To quit, type" + " 'exit'".colorize(:green)
   end
 
   def find_and_list_player
