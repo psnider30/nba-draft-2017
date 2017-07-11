@@ -1,6 +1,6 @@
 # NbaDraft2017
 
-This Ruby Gem provides a Command Line Interface to view the 60 picks from the 2017 NBA draft. This draft class is thought to be very strong especially in lottery talent and will have significant impact on the future of many NBA teams. It displays a draft board, player stats, NBA teams picks, and picks from Former Schools or Countries.
+This Ruby Gem provides a Command Line Interface to view the 60 picks from the 2017 NBA draft. This draft class is thought to be very strong especially in lottery talent and will have significant impact on the future of many NBA teams. It displays a draft board, player stats, NBA team's picks, and picks from Former Schools or Countries.
 
 ## Installation
 
@@ -21,7 +21,8 @@ Or install it yourself as:
 ## Usage
 
 Type the below and follow the on screen prompts
-  $ nba-draft-2017
+
+    $ nba-draft-2017
 
 ## Development
 
