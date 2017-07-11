@@ -2,7 +2,7 @@ require 'open-uri'
 require 'pry'
 require 'nokogiri'
 require 'colorize'
-require 'openurl'
+
 
 require_relative "../lib/nba_draft_2017/version"
 require_relative '../lib/nba_draft_2017/cli'
