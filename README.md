@@ -1,8 +1,6 @@
 # NbaDraft2017
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nba_draft_2017`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This Ruby Gem provides a Command Line Interface to view the 60 picks from the 2017 NBA draft. This draft class is thought to be very strong especially in lottery talent and will have significant impact on the future of many NBA teams. It displays a draft board, player stats, NBA teams picks, and picks from Former Schools or Countries.
 
 ## Installation
 
@@ -22,7 +20,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Type the below and follow the on screen prompts
+  $ nba-draft-2017
 
 ## Development
 
@@ -32,7 +31,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/nba_draft_2017.
+Bug reports and pull requests are welcome on GitHub at https://github.com/psnider30/nba_draft_2017. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the Contributor Covenant code of conduct.
 
 ## License
 
