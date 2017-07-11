@@ -37,6 +37,7 @@ class NbaDraft2017::Player
 
   def self.players_by_nba_team(nba_team)
     puts nba_team.upcase.bold.colorize(:green)
+
     self.all.each do |player|
       if player.nba_team.downcase == nba_team.downcase
         puts "Rd: ".colorize(:red) +"#{player.round}" + "  Pick: ".colorize(:red) +"#{player.pick} #{player.name.upcase.bold.colorize(:blue)} from #{player.former_team.bold.colorize(:blue)}"
@@ -54,6 +55,7 @@ class NbaDraft2017::Player
 
   def self.players_by_former_team(former_team)
     puts former_team.upcase.bold.colorize(:green)
+
     self.all.each do |player|
       if player.former_team.downcase == former_team.downcase
         puts "Rd: ".colorize(:red) +"#{player.round}" + "  Pick: ".colorize(:red) +"#{player.pick} #{player.name.upcase.bold.colorize(:blue)} to #{player.nba_team.bold.colorize(:blue)}"
