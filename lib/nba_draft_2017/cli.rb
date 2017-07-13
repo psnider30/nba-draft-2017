@@ -124,6 +124,7 @@ class NbaDraft2017::Cli
     puts "  From:".bold.colorize(:red) +" #{player.former_team}"
     puts "  Position:".bold.colorize(:red) +" #{player.position}"
     puts "  Drafted As:".bold.colorize(:red) +" #{player.former_status}"
+    puts "  Age:".bold.colorize(:red) +" #{player.age}"
     puts "  Height:".bold.colorize(:red) +" #{player.height}"
     puts "  Weight:".bold.colorize(:red) +" #{player.weight}"
     puts "  STATS".colorize(:green).bold if player.key_stats
