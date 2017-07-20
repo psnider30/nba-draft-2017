@@ -12,10 +12,6 @@ class NbaDraft2017::Player
     @@all << self
   end
 
-  def self.create_from_collection(players_array)
-    players_array.each { |player| NbaDraft2017::Player.new(player) }
-  end
-
   def add_player_attributes(attributes_hash)
     attributes_hash.each { |attribute, value| self.send("#{attribute}=", value) }
   end
@@ -26,6 +22,31 @@ class NbaDraft2017::Player
 
   def self.find_player_by_pick(pick)
     NbaDraft2017::Player.all.detect { |player| player.pick == pick.to_s }
+  end
+
+
+  def self.add_attributes_to_player(player_name)
+      player =self.find_player_by_name(player_name)
+      attributes = NbaDraft2017::Scraper.scrape_player("http://www.nba.com/draft/2017/prospects/" + player.profile_url)
+      player.add_player_attributes(attributes)
+      player
+  end
+
+  def self.add_attributes_to_players
+      self.all.each do |player|
+        add_attributes_to_player(player.name)
+      end
+  end
+
+
+  def self.stat_greater_than(stat_category, stat_num)
+    self.add_attributes_to_players
+    puts "Players with a higher average #{stat_category} include:"
+    self.all.select.with_index(1) do |player, idx|
+      if player.send(stat_category) && player.send(stat_category) > stat_num.to_f
+          puts "Pick: #{idx.to_s.colorize(:green)}. #{player.name.colorize(:green)} - #{player.send(stat_category).to_s.colorize(:red)} #{stat_category}"
+      end
+    end
   end
 
   def self.nba_teams

@@ -1,5 +1,7 @@
 class NbaDraft2017::Cli
 
+  @@key_stats = ['ppg', 'rpg', 'apg', 'tpg', 'spg', 'bpg', 'mpg', 'fg', 'three', 'ft']
+
   def call
     puts 'Welcome to the 2017 NBA Draft!'
     make_players
@@ -49,15 +51,13 @@ class NbaDraft2017::Cli
   end
 
     def make_players
-    players_array = NbaDraft2017::Scraper.scrape_draft
-    NbaDraft2017::Player.create_from_collection(players_array)
+    NbaDraft2017::Scraper.scrape_draft
   end
 
-  def add_attributes_to_player(player_name)
-      player = NbaDraft2017::Player.find_player_by_name(player_name)
-      attributes = NbaDraft2017::Scraper.scrape_player("http://www.nba.com/draft/2017/prospects/" + player.profile_url)
-      player.add_player_attributes(attributes)
-      player
+  def add_attributes_to_players
+      NbaDraft2017::Player.all.each do |player|
+        add_attributes_to_player(player.name)
+      end
   end
 
   def menu
@@ -78,11 +78,34 @@ class NbaDraft2017::Cli
         list_draft_picks_by_nba_team
       elsif input == 'former team' || input == 'former'
         list_draft_picks_by_former_team
+      elsif input == 'compare stats'
+        compare_stats
       elsif input == 'exit'
         good_bye
       else
         error
       end
+    end
+  end
+
+  def compare_stats
+    puts "This might take a minute. To proceed enter a stat category from #{@@key_stats} or 'menu' to return to menu"
+    stat_category = gets.downcase.strip
+    if @@key_stats.include?(stat_category)
+      puts "Enter a number to see players that have a higher average for #{stat_category} and make it a decimal including 0. for fg, three, ft percentage"
+      stat_num = gets.strip
+      if stat_num.to_f.between?(0.001,30)
+        NbaDraft2017::Player.add_attributes_to_players
+        NbaDraft2017::Player.stat_greater_than(stat_category, stat_num)
+      elsif stat_num == 'menu' || stat_num == 'exit'
+        menu
+      else
+        error
+      end
+    elsif stat_category == 'menu' || stat_category == 'exit'
+      menu
+    else
+      error
     end
   end
 
@@ -97,6 +120,7 @@ class NbaDraft2017::Cli
     puts "Enter #{player.colorize(:green)} to see player details and stats"
     puts "Enter #{nba_team.colorize(:green)} to show players drafted by a NBA team"
     puts "Enter #{former_team.colorize(:green)} to show players drated out of colleges or clubs"
+    puts "Enter " + "'compare stats'".colorize(:green) + " to see player with stat average above number specified by user"
     puts "To quit, type" + " 'exit'".colorize(:green)
   end
 
@@ -116,7 +140,7 @@ class NbaDraft2017::Cli
   end
 
   def list_player_details(player_name)
-    player = add_attributes_to_player(player_name)
+    player = NbaDraft2017::Player.add_attributes_to_player(player_name)
 
     puts "#{player.name.upcase.bold.underline}".colorize(:green).bold
     puts "  Round:".bold.colorize(:red) +" #{player.round}" + "  Pick:".bold.colorize(:red) +" #{player.pick}"

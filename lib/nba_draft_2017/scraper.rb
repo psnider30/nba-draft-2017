@@ -41,12 +41,10 @@ class NbaDraft2017::Scraper
       else
         player[:profile_url] = player[:first_name].gsub(/\W/, '').downcase + '_' + player[:last_name].gsub(/\W/, '').downcase
       end
-
-      players << player
+      NbaDraft2017::Player.new(player)
       pick = pick.to_i + 1
       i += 1
     end
-    players
   end
 
   def self.scrape_player(profile_url)
@@ -111,7 +109,7 @@ class NbaDraft2017::Scraper
       elsif stat.downcase.include?('mpg')
         player[:mpg] = stat.split(' ')[0].strip.to_f
         player[:mpg].to_s + ' ' + stat.split(' ')[1].strip
-      elsif stat.downcase.include?('fg')
+       elsif stat.downcase.include?('fg')
         player[:fg] = stat.split(' ')[0].strip.to_f
         player[:FG].to_s + ' ' + stat.split(' ')[1].strip
       elsif stat.downcase.include?('3pt')
