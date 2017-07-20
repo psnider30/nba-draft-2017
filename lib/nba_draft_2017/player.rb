@@ -6,6 +6,7 @@ class NbaDraft2017::Player
   @@all = []
   @@nba_teams = []
   @@former_teams = []
+  @@all_attributes = nil
 
   def initialize(player_hash)
     player_hash.each {|attribute, value| self.send("#{attribute}=", value) }
@@ -25,28 +26,33 @@ class NbaDraft2017::Player
   end
 
 
-  def self.add_attributes_to_player(player_name)
-      player =self.find_player_by_name(player_name)
+  def self.add_attributes_to_player(player)
       attributes = NbaDraft2017::Scraper.scrape_player("http://www.nba.com/draft/2017/prospects/" + player.profile_url)
       player.add_player_attributes(attributes)
       player
   end
 
   def self.add_attributes_to_players
-      self.all.each do |player|
-        add_attributes_to_player(player.name)
+      @@all_attributes = self.all.each do |player|
+        add_attributes_to_player(player)
       end
   end
 
 
   def self.stat_greater_than(stat_category, stat_num)
-    self.add_attributes_to_players
-    puts "Players with a higher average #{stat_category} include:"
-    self.all.select.with_index(1) do |player, idx|
+    @@all_attributes ||= self.add_attributes_to_players
+    puts "Players with a higher average #{stat_category} include:".colorize(:green)
+    puts "------------------------------------------------------------".bold.colorize(:red)
+
+    players = self.all.select.with_index(1) do |player, idx|
       if player.send(stat_category) && player.send(stat_category) > stat_num.to_f
-          puts "Pick: #{idx.to_s.colorize(:green)}. #{player.name.colorize(:green)} - #{player.send(stat_category).to_s.colorize(:red)} #{stat_category}"
+        puts "Pick: #{idx.to_s.colorize(:green)}. #{player.name.colorize(:green)} - #{player.send(stat_category).to_s.colorize(:red)} #{stat_category}"
+        player
       end
+
     end
+    puts "Nobody!".bold.colorize(:red) if players.empty?
+    puts "------------------------------------------------------------".bold.colorize(:red)
   end
 
   def self.nba_teams
@@ -82,6 +88,10 @@ class NbaDraft2017::Player
         puts "Rd: ".colorize(:red) +"#{player.round}" + "  Pick: ".colorize(:red) +"#{player.pick} #{player.name.upcase.bold.colorize(:blue)} to #{player.nba_team.bold.colorize(:blue)}"
       end
     end
+  end
+
+  def self.all_attributes
+    @@all_attributes
   end
 
   def self.all

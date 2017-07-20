@@ -88,27 +88,6 @@ class NbaDraft2017::Cli
     end
   end
 
-  def compare_stats
-    puts "This might take a minute. To proceed enter a stat category from #{@@key_stats} or 'menu' to return to menu"
-    stat_category = gets.downcase.strip
-    if @@key_stats.include?(stat_category)
-      puts "Enter a number to see players that have a higher average for #{stat_category} and make it a decimal including 0. for fg, three, ft percentage"
-      stat_num = gets.strip
-      if stat_num.to_f.between?(0.001,30)
-        NbaDraft2017::Player.add_attributes_to_players
-        NbaDraft2017::Player.stat_greater_than(stat_category, stat_num)
-      elsif stat_num == 'menu' || stat_num == 'exit'
-        menu
-      else
-        error
-      end
-    elsif stat_category == 'menu' || stat_category == 'exit'
-      menu
-    else
-      error
-    end
-  end
-
   def list_controls
     draft = "'draft'"
     round_1 = "'rd1'"
@@ -130,17 +109,21 @@ class NbaDraft2017::Cli
 
     if lookup.to_i.between?(1, NbaDraft2017::Player.all.size)
       player = NbaDraft2017::Player.find_player_by_pick(lookup)
-      list_player_details(player.name)
-    elsif NbaDraft2017::Player.find_player_by_name(lookup)
-      list_player_details(lookup)
+      list_player_details(player)
+    elsif player ||= NbaDraft2017::Player.find_player_by_name(lookup)
+      list_player_details(player)
     else
       error
     end
     player
   end
 
-  def list_player_details(player_name)
-    player = NbaDraft2017::Player.add_attributes_to_player(player_name)
+  def list_player_details(player)
+    if NbaDraft2017::Player.all_attributes
+      player
+    else
+      player = NbaDraft2017::Player.add_attributes_to_player(player)
+    end
 
     puts "#{player.name.upcase.bold.underline}".colorize(:green).bold
     puts "  Round:".bold.colorize(:red) +" #{player.round}" + "  Pick:".bold.colorize(:red) +" #{player.pick}"
@@ -164,6 +147,27 @@ class NbaDraft2017::Cli
       puts "    SPG:".bold.colorize(:red) + " #{player.spg}" if player.spg
       puts "    BPG:".bold.colorize(:red) + " #{player.bpg}" if player.bpg
       puts "    MPG:".bold.colorize(:red) + " #{player.mpg}" if player.mpg
+    end
+  end
+
+  def compare_stats
+    puts "This might take a minute for first comaprison.".bold.colorize(:green)
+    puts "To proceed enter a stat category from #{@@key_stats} or 'menu' to return to menu"
+    stat_category = gets.downcase.strip
+    if @@key_stats.include?(stat_category)
+      puts "Enter a number to see players that have a higher average for #{stat_category.colorize(:green)} and make sure to enter a decimal for fg%, three%, and ft%"
+      stat_num = gets.strip
+      if stat_num.to_f.between?(0.001,40)
+        NbaDraft2017::Player.stat_greater_than(stat_category, stat_num)
+      elsif stat_num == 'menu' || stat_num == 'exit'
+        menu
+      else
+        error
+      end
+    elsif stat_category == 'menu' || stat_category == 'exit'
+      menu
+    else
+      error
     end
   end
 

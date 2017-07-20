@@ -23,6 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "pry"
 
-  spec.add_runtime_dependency "nokogiri", "~>1.8.0"
+  spec.add_runtime_dependency "nokogiri", "~> 1.0"
   spec.add_runtime_dependency "colorize"
 end
