@@ -41,7 +41,7 @@ class NbaDraft2017::Player
 
   def self.stat_greater_than(stat_category, stat_num)
     @@all_attributes ||= self.add_attributes_to_players
-    puts "Players with a higher average #{stat_category} include:".colorize(:green)
+    puts "Players with a higher #{stat_category} average than #{stat_num.to_f} include:".colorize(:green)
     puts "------------------------------------------------------------".bold.colorize(:red)
 
     players = self.all.select.with_index(1) do |player, idx|

@@ -1,7 +1,8 @@
+require "open_uri_redirections"
 class NbaDraft2017::Scraper
 
   def self.scrape_draft
-    doc = Nokogiri::HTML(open('http://www.cbssports.com/nba/news/2017-nba-draft-picks-complete-results-full-list-of-players-selected-highlights-grades/'))
+    doc = Nokogiri::HTML(open('http://www.cbssports.com/nba/news/2017-nba-draft-picks-complete-results-full-list-of-players-selected-highlights-grades/', :allow_redirections => :safe))
     draft = doc.xpath('//*[@id="article-main-body"]/div/ol')
     players = []
     pick = '1'
@@ -48,7 +49,7 @@ class NbaDraft2017::Scraper
   end
 
   def self.scrape_player(profile_url)
-    player_page = Nokogiri::HTML(open(profile_url))
+    player_page = Nokogiri::HTML(open(profile_url, :allow_redirections => :safe))
     player = {}
     ht_weight = player_page.css('.stats').text.split(':')[1]
 

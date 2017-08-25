@@ -18,11 +18,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib", "lib/nba_draft_2017"]
 
 
-  spec.add_development_dependency "bundler", "~> 1.15"
+
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "pry"
+  spec.add_development_dependency "pry", "~> 0.10"
 
-  spec.add_runtime_dependency "nokogiri", "~> 1.0"
-  spec.add_runtime_dependency "colorize"
+  spec.add_runtime_dependency "bundler", "~> 1.15"
+  spec.add_runtime_dependency "nokogiri", "~> 1.8"
+  spec.add_runtime_dependency "colorize", "~> 0.8"
+  spec.add_runtime_dependency "open_uri_redirections", "~> 0.2"
 end
